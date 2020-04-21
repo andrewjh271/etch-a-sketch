@@ -1,15 +1,27 @@
 const container = document.querySelector('#grid-box');
 
-let numberOfCells = 256;
+let squaresPerSide = 16;
 let item = [];
 let currentlyActive = false;
 
+createGrid(squaresPerSide);
 
-for(let i = 0; i<numberOfCells; i++) {
-  item[i] = document.createElement('div');
-  item[i].classList.add('cell');
-  // item.setAttribute('id', i);
-  container.appendChild(item[i]);
+
+function createGrid(squaresPerSide) {
+  clearGrid();
+  container.style.gridTemplateColumns = (`repeat(${squaresPerSide}, 1fr`);
+  container.style.gridTemplateRows = (`repeat(${squaresPerSide}, 1fr`);
+  let numberOfCells = squaresPerSide * squaresPerSide;
+  for(let i = 0; i<numberOfCells; i++) {
+    item[i] = document.createElement('div');
+    item[i].classList.add('cell');
+    container.appendChild(item[i]);
+  }
+}
+function clearGrid() {
+  while(container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
 }
 
 
@@ -38,5 +50,8 @@ reset.addEventListener('click', function() {
   item.forEach(square => {
     square.classList.remove('drawn');
   })
+  let squaresPerSide = prompt('How many squares per side would you like in the new grid?');
+  createGrid(squaresPerSide);
 })
+
 
