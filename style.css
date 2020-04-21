@@ -3,32 +3,39 @@ html, body {
 }
 #controls-container {
   display: flex;
+  float: left;
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  margin: 4vh;
-  box-sizing: border-box;
-  height: 9vh;
+  margin-right: 4vw;
+  margin-left: 4vw;
+  /* box-sizing: border-box; */
+  width: 28vw;
   text-align: center;
+  padding: 0;
+
 }
 #grid-container {
-  box-sizing: border-box;
+  /* float: right; */
+  margin-top: 5vh;
+  margin-right: 5vw;
+  /* box-sizing: border-box; */
   display: grid;
-  height: 75vh;
-  width: 75vh;
-  border: 1px black solid;
-  margin-left: auto;
-  margin-right: auto;
+  height: 58vw;
+  width: 58vw;
+  border: 1px rgba(0, 0, 0, 0.671) solid;
 }
 .cell {
   box-sizing: border-box;
-  border: 1px black solid;
+  border: 1px rgba(0, 0, 0, 0.336) solid;
+  background-color: rgba(255, 255, 255, 1);
 }
 .cell:hover {
   background-color: aquamarine !important;
 }
-.white {
-  background-color: white;
+#display-size {
+  display: inline;
 }
-.drawn {
-  background-color: blue;
+#new-size {
+  display: inline;
 }

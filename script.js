@@ -3,7 +3,7 @@ const controlsContainer = document.querySelector('#controls-container')
 let squaresPerSide = 16;
 let cell = [];
 let currentlyActive = false;
-let colorChoice = 0; //blue
+let colorChoice = 0; //default (shade of blue)
 let currentColor = [];
 
 createGrid(squaresPerSide);
@@ -17,6 +17,7 @@ function createGrid(squaresPerSide) {
   for(let i = 0; i<numberOfCells; i++) {
     cell[i] = document.createElement('div');
     cell[i].classList.add('cell');
+    cell[i].style = 'background-color: rgba(255, 255, 255, 1)';
     gridContainer.appendChild(cell[i]);
   }
 }
@@ -45,7 +46,6 @@ function togglePen() {
 function activatePen(e) {
   // e.target.classList.add('drawn');
   colorChoice = +colorButtons.color.value; //converts to number
-  console.log(colorChoice);
   switch(colorChoice) {
     case(0):
       currentColor = [19, 123, 214, 0.95];
@@ -101,7 +101,9 @@ function randomColor3() {
   return [red, green, blue, alpha];
 } //emphasizes green
 function darken(e) {
+  console.log(e.target.style);
   console.log(e.target.style.backgroundColor);
+  console.log('test');
   let colorString = e.target.style.backgroundColor;
   let red = (+(colorString.slice(colorString.indexOf('(')+1, colorString.indexOf(','))));
   colorString = colorString.slice(colorString.indexOf(' ')+1);
@@ -131,7 +133,7 @@ newGridButton.addEventListener('click', function() {
 
 function clear() {
   cell.forEach(item => {
-    item.style = 'background-color: white';
+    item.style = 'background-color: rgba(255, 255, 255, 1)';
     // item.classList.remove('drawn');
     // item.classList.add('white');
     displaySize.textContent = newSize.value;
@@ -144,9 +146,9 @@ function clear() {
 
 
 const colorButtons = document.querySelector('#radio-buttons');
-colorButtons.addEventListener('change', function(){
-  console.log(colorButtons.color.value)
-})
+// colorButtons.addEventListener('change', function(){
+//   console.log(colorButtons.color.value)
+// })
 
 const colorPicker = document.querySelector('#color-picker');
 colorPicker.addEventListener('change', function() {
@@ -157,9 +159,11 @@ colorPicker.value = '#e490ff';
 
 let newSize = document.querySelector('#new-size');
 newSize.value = 16;
-let displaySize = document.createElement('span');
-// controlsContainer.appendChild(displaySize);
-controlsContainer.insertBefore(displaySize, colorButtons);
+// let displaySize = document.createElement('span');
+// controlsLeft.appendChild(displaySize);
+// controlsContainer.insertBefore(displaySize, colorButtons);
+// displaySize.setAttribute('id', 'display-size');
+let displaySize = document.querySelector('#size-label');
 displaySize.textContent = newSize.value;
 newSize.addEventListener('mousemove', function() {
   // console.log(newSize.value);
