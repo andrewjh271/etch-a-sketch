@@ -24,10 +24,11 @@ html, body {
   border: 1px black solid;
 }
 .cell:hover {
-  background-color: aquamarine;
+  background-color: aquamarine !important;
+}
+.white {
+  background-color: white;
 }
 .drawn {
   background-color: blue;
-  background-color: rgba(red, rgb(43, 182, 43), blue, alpha);
-  background-color: #e62d2d77;
 }

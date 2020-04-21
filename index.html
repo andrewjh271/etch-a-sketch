@@ -9,11 +9,25 @@
     <div id='controls-container'>
       <p>Click inside grid to toggle pen</p>
       <button id='clear'>Clear</button>
-      <input id='new-size' type='range' min='1' max='100' defaultValue='16'>
       <button id='new-grid'>New</button>
+      <input id='new-size' type='range' min='1' max='100' defaultValue='16'>
+      <form id='radio-buttons'>
+        <input type='radio' name='color' value='0'>
+        <label for='blue'>Blue</label><br>
+        <input type='radio' name='color' value='1'>
+        <label for='random1'>Random 1</label><br>
+        <input type='radio' name='color' value='2'>
+        <label for='random2'>Random 2</label><br>
+        <input type='radio' name='color' value='3'>
+        <label for='random3'>Random 3</label><br>
+        <input type='radio' name='color' value='4'>
+        <label for='incrementally-darken'>Incrementally Darken</label><br>
+        <input type='radio' name='color' value='5'>
+        <label for='color-picker'>Choose your own</label>
+      </form>
+      <input id='color-picker' type='color'>
     </div>
     <div id='grid-container'>
-
 
     </div>
 
