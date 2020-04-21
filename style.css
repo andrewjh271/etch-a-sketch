@@ -1,7 +1,7 @@
 html, body {
   margin:0;padding:0;
 }
-#instructions {
+#controls-container {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -10,11 +10,9 @@ html, body {
   height: 9vh;
   text-align: center;
 }
-#grid-box {
+#grid-container {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(16, 1fr);
-  grid-template-rows: repeat(16, 1fr);
   height: 75vh;
   width: 75vh;
   border: 1px black solid;
@@ -30,4 +28,6 @@ html, body {
 }
 .drawn {
   background-color: blue;
+  background-color: rgba(red, rgb(43, 182, 43), blue, alpha);
+  background-color: #e62d2d77;
 }
