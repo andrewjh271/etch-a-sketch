@@ -3,71 +3,112 @@ const controlsContainer = document.querySelector('#controls-container')
 let squaresPerSide = 16;
 let cell = [];
 let currentlyActive = false;
-let colorChoice = 0; //default (shade of blue)
 let currentColor = [];
+
+gridContainer.addEventListener('click', function() { togglePen()});
+
+//Controls:
+
+const resetButton = document.querySelector('#clear');
+resetButton.addEventListener('click', clear);
+//Clear
+
+const newGridButton = document.querySelector('#new-grid');
+newGridButton.addEventListener('click', function() {
+  clear();
+  createGrid(newSize.value);
+})//New Grid
+
+let newSize = document.querySelector('#new-size');
+newSize.value = 16;
+let displaySize = document.querySelector('#size-label');
+displaySize.textContent = newSize.value;
+newSize.addEventListener('mousemove', function() {
+  displaySize.textContent = newSize.value;
+})//Range Bar and Display
+
+const colorButtons = document.querySelector('#radio-buttons');
+colorButtons.addEventListener('click', function(){
+  console.log(colorButtons.color.value)
+  if(colorButtons.color.value == 4) {
+    cell.forEach(item => {
+      item.dataset.darken = 0; //reset # of increments needed to get to 0
+    })
+  }
+}) 
+colorButtons.color.value = 'default';
+//Color theme radio buttons
+
+const colorPicker = document.querySelector('#color-picker');
+colorPicker.addEventListener('change', function() {
+  console.log(colorPicker.value);
+})
+colorPicker.value = '#e490ff';
+//Color picker
 
 createGrid(squaresPerSide);
 
+//Functions:
 
 function createGrid(squaresPerSide) {
-  clearGrid();
+  removeCells();
   gridContainer.style.gridTemplateColumns = (`repeat(${squaresPerSide}, 1fr`);
   gridContainer.style.gridTemplateRows = (`repeat(${squaresPerSide}, 1fr`);
   let numberOfCells = squaresPerSide * squaresPerSide;
   for(let i = 0; i<numberOfCells; i++) {
     cell[i] = document.createElement('div');
     cell[i].classList.add('cell');
-    cell[i].style = 'background-color: rgba(255, 255, 255, 1)';
+    cell[i].dataset.darken = 0; //keeps track of current step (0-9) for 'Incrementally Darken'
+    cell[i].style = 'background-color: rgba(255, 255, 255, 1)'; //redundant, but prevents override of css styling
+    cell[i].addEventListener('click', activatePen);
     gridContainer.appendChild(cell[i]);
   }
 }
-function clearGrid() {
+function removeCells() {
   while(gridContainer.firstChild) {
     gridContainer.removeChild(gridContainer.firstChild);
   }
 }
-
-
-gridContainer.addEventListener('click', function() { togglePen()});
-
+function clear() {
+  cell.forEach(item => {
+    item.style = 'background-color: rgba(255, 255, 255, 1)';
+    item.removeEventListener('mouseenter', activatePen);
+  })
+  currentlyActive = false;
+}
 function togglePen() {
   if(!currentlyActive) {
     cell.forEach(item => {
-      item.addEventListener('mouseenter', activatePen);
+      item.addEventListener('mouseleave', activatePen);
     })
     currentlyActive = true;
   } else {
     cell.forEach(item => {
-      item.removeEventListener('mouseenter', activatePen);
+      item.removeEventListener('mouseleave', activatePen);
     })
     currentlyActive = false;
   }
 }
 function activatePen(e) {
-  // e.target.classList.add('drawn');
-  colorChoice = +colorButtons.color.value; //converts to number
-  switch(colorChoice) {
-    case(0):
-      currentColor = [19, 123, 214, 0.95];
+  colorTheme = colorButtons.color.value;
+  switch(colorTheme) {
+    case('random1'):
+      currentColor = randomColor1();
       e.target.style = `background-color: rgba(${currentColor})`;
       break;
-    case(1):
-      currentColor = randomColor1();
-      e.target.style = `background-color: rgba(${currentColor})`; //emphasizes blue
-      break;
-    case(2):
+    case('random2'):
       currentColor = randomColor2();
-      e.target.style = `background-color: rgba(${currentColor})`; //emphasizes blue
+      e.target.style = `background-color: rgba(${currentColor})`;
       break;
-    case(3):
+    case('random3'):
       currentColor = randomColor3();
-      e.target.style = `background-color: rgba(${currentColor})`; //emphasizes blue
+      e.target.style = `background-color: rgba(${currentColor})`;
       break;
-    case(4):
+    case('darken'):
       currentColor = darken(e);
       e.target.style = `background-color: rgba(${currentColor})`
       break;
-    case(5):
+    case('user'):
       currentColor = colorPicker.value;
       e.target.style = `background-color: ${currentColor}`;
       console.log(currentColor);
@@ -87,9 +128,9 @@ function randomColor1() {
 } //emphasizes blue
 function randomColor2() {
   // let red = Math.floor(Math.random()*100+155);
-  let red = (Math.floor(Math.random()*135)+120);
-  let green = Math.floor(Math.random()*100);
-  let blue = Math.floor(Math.random()*255);
+  let red = (Math.floor(Math.random()*150)+105);
+  let green = (Math.floor(Math.random()*10)+245);
+  let blue = Math.floor(Math.random()*40);
   let alpha = (0.6*Math.random()+0.2);
   return [red, green, blue, alpha];
 } //emphasizes red
@@ -101,72 +142,47 @@ function randomColor3() {
   return [red, green, blue, alpha];
 } //emphasizes green
 function darken(e) {
-  console.log(e.target.style);
   console.log(e.target.style.backgroundColor);
-  console.log('test');
   let colorString = e.target.style.backgroundColor;
   let red = (+(colorString.slice(colorString.indexOf('(')+1, colorString.indexOf(','))));
   colorString = colorString.slice(colorString.indexOf(' ')+1);
   let green = (+colorString.slice(0, colorString.indexOf(',')));
   colorString = colorString.slice(colorString.indexOf(' ')+1);
   let blue = (+colorString.slice(0, colorString.indexOf(',')));
-  colorString = colorString.slice(colorString.indexOf(' ')+1, colorString.indexOf(')'));
-  let alpha = +colorString;
+  let alpha;
+  if(colorString.indexOf('.') !== -1) {
+    colorString = colorString.slice(colorString.indexOf(' ')+1, colorString.indexOf(')'));
+    alpha = +colorString;
+  } else alpha = 1;
+  //e.target.style.backgroundColor is shortened from rgba to rgb if alpha is 1
+  let currentDarkeningStep = e.target.dataset.darken;
+  if(currentDarkeningStep == 9) return [0, 0, 0, 1]; //cell is already black
   console.log([red, green, blue, alpha]);
-  red = ((red - 25.5) < 0) ? 0 : red - 25.5;
-  green = ((green - 25.5) < 0) ? 0 : green - 25.5;
-  blue = ((blue - 25.5) < 0) ? 0 : blue - 25.5;
-  alpha = ((alpha + 0.1) >= 1) ? 1 : alpha + 0.99;
-  return [red, green, blue, alpha];
+  console.log('Current darkening step: ' + currentDarkeningStep);
+  let newRed = getNewColorValue(red, currentDarkeningStep, false);
+  let newGreen = getNewColorValue(green, currentDarkeningStep, false);
+  let newBlue = getNewColorValue(blue, currentDarkeningStep, false);
+  let newAlpha = getNewColorValue(alpha, currentDarkeningStep, true);
+  currentDarkeningStep++;
+  e.target.dataset.darken = currentDarkeningStep;
+
+  console.log([newRed, newGreen, newBlue, newAlpha]);
+  return [newRed, newGreen, newBlue, newAlpha];
 }
-
-
-
-const resetButton = document.querySelector('#clear');
-resetButton.addEventListener('click', clear);
-const newGridButton = document.querySelector('#new-grid');
-newGridButton.addEventListener('click', function() {
-  clear();
-  createGrid(newSize.value);
-})
-
-
-function clear() {
-  cell.forEach(item => {
-    item.style = 'background-color: rgba(255, 255, 255, 1)';
-    // item.classList.remove('drawn');
-    // item.classList.add('white');
-    displaySize.textContent = newSize.value;
-    item.removeEventListener('mouseenter', activatePen);
-  })
-  currentlyActive = false;
+function getNewColorValue(currentColorValue, step, alpha) {
+  let increment;
+  let newValue;
+  if(!alpha) {
+    increment = currentColorValue / (10 - step);
+    console.log('Current color value: ' + currentColorValue);
+    console.log('Increment: ' + increment);
+    newValue = currentColorValue - increment;
+  }else {
+    increment = (1 - currentColorValue) / (10 - step);
+    console.log('Current color value: ' + currentColorValue);
+    console.log('Increment: ' + increment);
+    newValue = currentColorValue + increment; 
+  }
+  console.log('New color value: ' + newValue);
+  return (newValue);
 }
-
-
-
-
-const colorButtons = document.querySelector('#radio-buttons');
-// colorButtons.addEventListener('change', function(){
-//   console.log(colorButtons.color.value)
-// })
-
-const colorPicker = document.querySelector('#color-picker');
-colorPicker.addEventListener('change', function() {
-  console.log(colorPicker.value);
-})
-colorPicker.value = '#e490ff';
-
-
-let newSize = document.querySelector('#new-size');
-newSize.value = 16;
-// let displaySize = document.createElement('span');
-// controlsLeft.appendChild(displaySize);
-// controlsContainer.insertBefore(displaySize, colorButtons);
-// displaySize.setAttribute('id', 'display-size');
-let displaySize = document.querySelector('#size-label');
-displaySize.textContent = newSize.value;
-newSize.addEventListener('mousemove', function() {
-  // console.log(newSize.value);
-  displaySize.textContent = newSize.value;
-})
-

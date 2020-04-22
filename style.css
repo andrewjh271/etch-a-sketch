@@ -1,5 +1,13 @@
-html, body {
+html, {
   margin:0;padding:0;
+}
+body { 
+  margin:0;padding:0;
+  background-color: #4980f718;
+}
+h3 {
+  text-align: center;
+  margin: 5vh;
 }
 #controls-container {
   display: flex;
@@ -9,24 +17,26 @@ html, body {
   align-items: center;
   margin-right: 4vw;
   margin-left: 4vw;
+  margin-top: 5vh;
   /* box-sizing: border-box; */
-  width: 28vw;
+  width: 27vw;
   text-align: center;
   padding: 0;
-
+  height: 58vw;
 }
 #grid-container {
-  /* float: right; */
+  float: right;
   margin-top: 5vh;
   margin-right: 5vw;
   /* box-sizing: border-box; */
+  box-sizing: content-box;
   display: grid;
   height: 58vw;
   width: 58vw;
   border: 1px rgba(0, 0, 0, 0.671) solid;
 }
 .cell {
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   border: 1px rgba(0, 0, 0, 0.336) solid;
   background-color: rgba(255, 255, 255, 1);
 }
