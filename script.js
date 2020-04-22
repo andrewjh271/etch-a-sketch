@@ -9,42 +9,44 @@ gridContainer.addEventListener('click', function() { togglePen()});
 
 //Controls:
 
+//Clear:
 const resetButton = document.querySelector('#clear');
 resetButton.addEventListener('click', clear);
-//Clear
 
+//New Grid:
 const newGridButton = document.querySelector('#new-grid');
 newGridButton.addEventListener('click', function() {
   clear();
   createGrid(newSize.value);
-})//New Grid
+})
 
+//Range Bar and Display:
 let newSize = document.querySelector('#new-size');
 newSize.value = 16;
 let displaySize = document.querySelector('#size-label');
 displaySize.textContent = newSize.value;
 newSize.addEventListener('mousemove', function() {
   displaySize.textContent = newSize.value;
-})//Range Bar and Display
+})
 
+//Color theme radio buttons:
 const colorButtons = document.querySelector('#radio-buttons');
 colorButtons.addEventListener('click', function(){
   console.log(colorButtons.color.value)
   if(colorButtons.color.value == 4) {
     cell.forEach(item => {
-      item.dataset.darken = 0; //reset # of increments needed to get to 0
+      item.dataset.darken = 0; //reset # of steps needed to get to black
     })
   }
 }) 
 colorButtons.color.value = 'default';
-//Color theme radio buttons
 
+//Color picker
 const colorPicker = document.querySelector('#color-picker');
 colorPicker.addEventListener('change', function() {
   console.log(colorPicker.value);
 })
 colorPicker.value = '#e490ff';
-//Color picker
 
 createGrid(squaresPerSide);
 
@@ -59,7 +61,7 @@ function createGrid(squaresPerSide) {
     cell[i] = document.createElement('div');
     cell[i].classList.add('cell');
     cell[i].dataset.darken = 0; //keeps track of current step (0-9) for 'Incrementally Darken'
-    cell[i].style = 'background-color: rgba(255, 255, 255, 1)'; //redundant, but prevents override of css styling
+    cell[i].style = 'background-color: rgba(255, 255, 255, 1)'; //redundant, but deals with override of css styling
     cell[i].addEventListener('click', activatePen);
     gridContainer.appendChild(cell[i]);
   }
@@ -116,7 +118,6 @@ function activatePen(e) {
     default:
       currentColor = [19, 123, 214, 0.95];
       e.target.style = `background-color: rgba(${currentColor})`;
-      break;
   }
 }
 function randomColor1() {
@@ -127,10 +128,9 @@ function randomColor1() {
   return [red, green, blue, alpha];
 } //emphasizes blue
 function randomColor2() {
-  // let red = Math.floor(Math.random()*100+155);
-  let red = (Math.floor(Math.random()*150)+105);
-  let green = (Math.floor(Math.random()*10)+245);
-  let blue = Math.floor(Math.random()*40);
+  let red = (Math.floor(Math.random()*155)+100);
+  let green = (Math.floor(Math.random()*255)+000);
+  let blue = Math.floor(Math.random()*0);
   let alpha = (0.6*Math.random()+0.2);
   return [red, green, blue, alpha];
 } //emphasizes red
@@ -165,7 +165,6 @@ function darken(e) {
   let newAlpha = getNewColorValue(alpha, currentDarkeningStep, true);
   currentDarkeningStep++;
   e.target.dataset.darken = currentDarkeningStep;
-
   console.log([newRed, newGreen, newBlue, newAlpha]);
   return [newRed, newGreen, newBlue, newAlpha];
 }

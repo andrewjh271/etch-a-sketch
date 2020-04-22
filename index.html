@@ -4,13 +4,14 @@
     <meta charset="utf-8">
     <title>Etch-a-Sketch</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=League+Script&display=swap" rel="stylesheet">
   </head>
   <body>
-    <h3>Etch-a-sketch</h6>
+    <h3>Etch-a-Sketch</h6>
     <div id='controls-container'>
       <p>Click inside grid to toggle pen</p>
       <button id='clear'>Clear</button>
-      <div>
+      <div id='new-container'>
         <button id='new-grid'>New</button>
         <input id='new-size' type='range' min='1' max='100' defaultValue='16'>
         <label id='size-label' for='grid-size'></label>
@@ -27,14 +28,12 @@
         <input type='radio' name='color' value='darken'>
         <label for='incrementally-darken'>Incrementally Darken</label><br>
         <input type='radio' name='color' value='user'>
-        <label for='color-picker'>Choose your own</label>
-      </form>
-      <input id='color-picker' type='color'>
-    </div>
-    <div id='grid-container'>
-
+        <label for='color-picker'>Choose your own...&emsp;</label>
+        <input id='color-picker' type='color'>
+      </form> 
     </div>
 
+    <div id='grid-container'> </div>
 
   </body>
   <script type="text/javascript" src="script.js"></script>
