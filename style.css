@@ -43,7 +43,7 @@ button:focus {
 /* 'Clear' Button: */
 #clear {
   position: relative;
-  bottom: 3vh;
+  bottom: 2vw;
   background-color: #3ba1c9;
 }
 #clear:hover {
@@ -92,7 +92,7 @@ button:focus {
 #size-label {
   width: 3vw;
   font-size: 1.5vw;
-  color: mediumslateblue;
+  color: #7b68ee;
 }
 /* Radio buttons */
 #radio-buttons {
@@ -107,11 +107,11 @@ button:focus {
   display: grid;
   height: 54vw;
   width: 54vw;
-  border: 1px rgba(0, 0, 0, 0.671) solid;
+  border: 1px rgba(0, 0, 0, 0.404) solid;
 }
 /* Cells */
 .cell {
-  border: 1px rgba(0, 0, 0, 0.336) solid;
+  border: 1px rgba(0, 0, 0, 0.041) solid;
   background-color: rgba(255, 255, 255, 1);
 }
 .cell:hover {

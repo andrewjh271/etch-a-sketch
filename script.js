@@ -46,7 +46,7 @@ const colorPicker = document.querySelector('#color-picker');
 colorPicker.addEventListener('change', function() {
   console.log(colorPicker.value);
 })
-colorPicker.value = '#e490ff';
+colorPicker.value = '#7b68ee';
 
 createGrid(squaresPerSide);
 
@@ -75,6 +75,7 @@ function clear() {
   cell.forEach(item => {
     item.style = 'background-color: rgba(255, 255, 255, 1)';
     item.removeEventListener('mouseenter', activatePen);
+    item.dataset.darken = 0; //reset # of steps needed to get to black
   })
   currentlyActive = false;
 }
