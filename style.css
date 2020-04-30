@@ -18,7 +18,7 @@ h3 {
   float: left;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 7vw;
+  margin-left: 9vw;
   margin-top: 1vh;
   width: 24vw;
   padding: 0;
@@ -105,8 +105,8 @@ button:focus {
   margin-right: 6vw;
   box-sizing: content-box;
   display: grid;
-  height: 54vw;
-  width: 54vw;
+  height: 49vw;
+  width: 49vw;
   border: 1px rgba(0, 0, 0, 0.404) solid;
 }
 /* Cells */
