@@ -143,19 +143,15 @@ function randomColor3() {
   return [red, green, blue, alpha];
 } //emphasizes green
 function darken(e) {
-  console.log(e.target.style.backgroundColor);
-  let colorString = e.target.style.backgroundColor;
-  let red = (+(colorString.slice(colorString.indexOf('(')+1, colorString.indexOf(','))));
-  colorString = colorString.slice(colorString.indexOf(' ')+1);
-  let green = (+colorString.slice(0, colorString.indexOf(',')));
-  colorString = colorString.slice(colorString.indexOf(' ')+1);
-  let blue = (+colorString.slice(0, colorString.indexOf(',')));
-  let alpha;
-  if(colorString.indexOf('.') !== -1) {
-    colorString = colorString.slice(colorString.indexOf(' ')+1, colorString.indexOf(')'));
-    alpha = +colorString;
-  } else alpha = 1;
-  //e.target.style.backgroundColor is shortened from rgba to rgb if alpha is 1
+  let oldColor = e.target.style.backgroundColor;
+  console.log(oldColor);
+  let rgbaString = (oldColor.charAt(3) == 'a') ? oldColor.slice(5, -1) : oldColor.slice(4, -1);
+  //checks whether backgroundColor is in rgba or rgb format
+  let rgbaArray = rgbaString.split(',');
+  let red = rgbaArray[0];
+  let green = rgbaArray[1];
+  let blue = rgbaArray[2];
+  let alpha = rgbaArray[3] ? rgbaArray[3] : 1;
   let currentDarkeningStep = e.target.dataset.darken;
   if(currentDarkeningStep == 9) return [0, 0, 0, 1]; //cell is already black
   console.log([red, green, blue, alpha]);
@@ -181,7 +177,7 @@ function getNewColorValue(currentColorValue, step, alpha) {
     increment = (1 - currentColorValue) / (10 - step);
     console.log('Current color value: ' + currentColorValue);
     console.log('Increment: ' + increment);
-    newValue = currentColorValue + increment; 
+    newValue = +currentColorValue + increment; 
   }
   console.log('New color value: ' + newValue);
   return (newValue);
