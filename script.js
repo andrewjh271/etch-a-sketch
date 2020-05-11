@@ -33,7 +33,7 @@ newSize.addEventListener('mousemove', function() {
 const colorButtons = document.querySelector('#radio-buttons');
 colorButtons.addEventListener('click', function(){
   console.log(colorButtons.color.value)
-  if(colorButtons.color.value == 4) {
+  if(colorButtons.color.value == 'darken') {
     cell.forEach(item => {
       item.dataset.darken = 0; //reset # of steps needed to get to black
     })
